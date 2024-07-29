@@ -1,10 +1,21 @@
 from behave import given, when, then
-from selenium.webdriver.common.keys import Keys
+from sample_data import sample_data
 from selenium.webdriver.common.by import By
+from locators import locators
+from selenium.webdriver.common.action_chains import ActionChains
 from loguru import logger
+import time
 import sys
 
+
+
+
+
+
 logger.add(sys.stderr, format="{time} {level} {message}", filter="my_module", level="INFO")
+
+
+
 
 @given(u'the user is on the cbuk main page')
 def step_impl(context):
@@ -33,6 +44,23 @@ def step_impl(context, opening_hours):
     logger.info(f"these are the opening hours {opening_hours}")
 
 
-@then(u'it will close the browser')
+@then(u'The banner text should be there')
 def step_impl(context):
-   pass
+    banner_text = context.browser.find_element(*locators.main_page_banner_text).text 
+    assert sample_data.main_page_banner_text == banner_text
+
+
+@then(u'The bullet points should be exact')
+def step_impl(context):
+    bullets_area = context.browser.find_element(*locators.main_page_bullet_points)
+    bullet_points = [item.text for item in bullets_area.find_elements(*locators.li_tag)]
+    assert sample_data.main_page_bullet_points == bullet_points
+
+@then(u'Verify the banner button background color')
+def step_impl(context):
+    banner_button = context.browser.find_element(*locators.banner_quote_button)
+    logger.info(f"Banner button color is {banner_button.value_of_css_property('background-color')}")
+    actions = ActionChains(context.browser)
+    actions.move_to_element(banner_button).perform()
+    time.sleep(3)
+    logger.info(f"Banner button color after hover is {banner_button.value_of_css_property('background-color')}")
