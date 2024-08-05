@@ -10,6 +10,7 @@ banner_reviews_image = (By.XPATH, '//*[@id="bgimage-loc"]/div/div/div/div[4]/div
 content_main_heading = (By.XPATH, '//*[@id="main-content"]/div/div/div/div[1]/h2')
 content_image = (By.XPATH, '//*[@id="main-content"]/div/div/div/div[2]/div/img')
 
+location_name = (By.ID, 'loc_name')
 
 view_gaurantee_section = (By.XPATH, '//*[@id="services-guarantee"]')
 view_gaurantee_section_main_box = (By.XPATH, '//*[@id="services-guarantee"]/div/div/div[2]')

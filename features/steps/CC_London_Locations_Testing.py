@@ -1,6 +1,7 @@
 from behave import given, when, then
 from sample_data import CC_london_data
 from locators import CC_locators
+from loguru import logger
 
 
 
@@ -10,10 +11,11 @@ def step_impl(context):
     context.browser.get('https://www.carpetbright.uk.com/carpet-cleaning/abbey-wood/')
 
 
-
 @then('the browser title should be Carpet Cleaning Abbey Wood, SE2 | 20 000+ Reviews')
 def step_then_browser_title_should_be(context):
     actual_title = context.browser.title
+    context.location_name = context.browser.find_element(*CC_locators.location_name).text
+    logger.info(context.location_name)
     assert "Carpet Cleaning Abbey Wood, SE2 | 20 000+ Reviews" in actual_title
     pass
 
@@ -81,6 +83,7 @@ def step_then_it_should_have_a_title_for_the_input_field(context):
 def step_then_input_field_should_be_present(context):
     need_your_carpet_cleaned_input = context.browser.find_element(*CC_locators.need_your_carpet_clean_input_field)
     need_your_carpet_cleaned_input.is_enabled()
+   
 
 @then('there should be a Get a Quote button')
 def step_then_get_a_quote_button_should_be_present(context):
@@ -100,7 +103,7 @@ def step_then_it_should_contain_text_call_us_for_a_free_estimate(context):
 @then('it should display the phone number')
 def step_then_it_should_display_the_phone_number(context):
     additional_service_phone_number = context.browser.find_element(*CC_locators.additional_services_phone_number)
-    assert "020 3519 8926" in additional_service_phone_number.text
+    assert CC_london_data.phone_number in additional_service_phone_number.text
 
 @then('it should include the text Voted #1 carpet cleaner in London. Our customer service hours are 9.00am to 6.00pm 6 days a week.')
 def step_then_it_should_include_text_voted_1_carpet_cleaner(context):
